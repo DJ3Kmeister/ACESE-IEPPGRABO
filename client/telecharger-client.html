@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Télécharger ACESE – IEPP GRABO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.2.0/qrcode.min.js"></script>
+  <style>
+    :root{--orange:#ff6f00;--vert:#2e7d32;--blanc:#fff;--gris:#f5f5f5}
+    body{font-family:'Comic Sans MS',Arial,Helvetica,sans-serif;margin:0;background:var(--gris);color:#333;text-align:center}
+    header{background:linear-gradient(135deg,var(--orange) 0%,var(--vert) 100%);color:var(--blanc);padding:30px;font-size:1.8rem;text-shadow:1px 1px 3px rgba(0,0,0,.3)}
+    section{background:var(--blanc);border:3px solid var(--orange);border-radius:20px;padding:30px;margin:30px auto;max-width:500px;box-shadow:0 6px 12px rgba(0,0,0,.1)}
+    .btn{display:inline-block;padding:15px 25px;font-size:1.1rem;font-weight:bold;color:var(--blanc);background:var(--orange);border:none;border-radius:15px;text-decoration:none;transition:transform .2s,background .3s;box-shadow:0 4px 8px rgba(0,0,0,.2)}
+    .btn:hover{background:#e65100;transform:scale(1.05)}
+    #qrcode{margin:20px auto}small{color:#666}
+  </style>
+</head>
+<body>
+<header>🍊 Télécharger ACESE – IEPP GRABO 🍏</header>
+<section>
+  <h2>Application pour les directeurs d’école</h2>
+  <p>Collecte des élèves <strong>sans extrait de naissance</strong></p>
+  <a href="index.html" download="ACESE-IEPP-GRABO-client.html" class="btn">📥 Télécharger le formulaire</a>
+  <p>Ou scannez le QR code :</p>
+  <div id="qrcode"></div>
+  <small>Compatible PC, tablette, smartphone (hors connexion)</small>
+</section>
+<script>
+  const url = window.location.origin + '/client/index.html';
+  new QRCode(document.getElementById('qrcode'), { text: url, width: 200, height: 200, colorDark: '#2e7d32', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard ACESE – IEPP GRABO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{--orange:#ff6f00;--vert:#2e7d32;--blanc:#fff;--gris:#f5f5f5}
+    body{font-family:'Comic Sans MS',Arial,Helvetica,sans-serif;margin:0;background:var(--gris)}
+    header{background:linear-gradient(135deg,var(--orange) 0%,var(--vert) 100%);color:var(--blanc);padding:30px;text-align:center;font-size:1.8rem;text-shadow:1px 1px 3px rgba(0,0,0,.3)}
+    #actions{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;padding:30px}
+    .btn{flex:1 1 260px;padding:18px;font-size:1.1rem;border:none;border-radius:15px;cursor:pointer;transition:transform .2s,background .3s;box-shadow:0 4px 8px rgba(0,0,0,.2)}
+    .btn.csv{background:var(--orange);color:var(--blanc)}.btn.stats{background:var(--vert);color:var(--blanc)}.btn:hover{transform:scale(1.05)}
+    #boxStats{background:var(--blanc);margin:30px;border-radius:20px;box-shadow:0 4px 12px rgba(0,0,0,.1);padding:25px;display:none}
+    #boxStats h2{text-align:center;color:var(--vert)}
+    table{width:100%;border-collapse:collapse;font-size:.9rem;border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1)}th,td{border:1px solid var(--orange);padding:6px;text-align:center}th{background:var(--vert-clair);color:var(--blanc)}canvas{max-height:400px;margin-top:20px}
+  </style>
+</head>
+<body>
+<header>🍊 Dashboard ACESE – IEPP GRABO 🍏</header>
+<div id="actions">
+  <button class="btn csv" onclick="exportGlobal()">📥 Exporter CSV IEPP GLOBALE</button>
+  <button class="btn csv" onclick="exportParSecteur()">📥 Exporter CSV par SECTEUR PEDAGOGIQUE</button>
+  <button class="btn stats" onclick="afficherStats()">📊 STATISTIQUES ACESE - IEPP GRABO</button>
+</div>
+<div id="boxStats"><h2>Statistiques visuelles</h2><canvas id="chart"></canvas></div>
+<script>
+  const API = window.location.origin;
+  async function fetchData() { const res = await fetch(API + '/api/eleves'); return res.json(); }
+  async function exportGlobal() {
+    const rows = await fetchData();
+    let csv = '\uFEFFDRENA;IEPP;Secteur pédagogique;École;Nom directeur;Prénoms directeur;Contact1;Contact2;Email;Nom élève;Prénoms élève;Sexe;Date naissance;Classe;Nom père;Tél père;Nationalité père;Nom mère;Tél mère;Nationalité mère;Nom témoin;Tél témoin\n';
+    rows.forEach(lot => {
+      const h = [lot.drena, lot.iepp, lot.secteur_pedagogique, lot.nom_ecole, lot.nom_directeur, lot.prenoms_directeur, lot.contact1, lot.contact2 || '', lot.email || ''].map(v => `"${v}"`).join(';');
+      JSON.parse(lot.eleves || '[]').forEach(e => {
+        csv += h + ';' + [e.nom, e.prenoms, e.sexe, e.date_naissance_probable, e.classe, e.nom_pere, e.numero_pere, e.nationalite_pere, e.nom_mere, e.numero_mere, e.nationalite_mere, e.nom_temoin, e.numero_temoin].map(v => `"${v}"`).join(';') + '\n';
+      });
+    });
+    download(csv, 'ACESE_IEPP_GRABO_GLOBAL.csv');
+  }
+  async function exportParSecteur() {
+    const rows = await fetchData();
+    let csv = '\uFEFFSecteur pédagogique;École;Nom élève;Prénoms élève;Sexe;Date naissance;Classe;Nom directeur;Contact1\n';
+    rows.forEach(lot => {
+      JSON.parse(lot.eleves || '[]').forEach(e => {
+        csv += [lot.secteur_pedagogique, lot.nom_ecole, e.nom, e.prenoms, e.sexe, e.date_naissance_probable, e.classe, lot.nom_directeur + ' ' + lot.prenoms_directeur, lot.contact1].map(v => `"${v}"`).join(';') + '\n';
+      });
+    });
+    download(csv, 'ACESE_IEPP_GRABO_PAR_SECTEUR.csv');
+  }
+  async function afficherStats() {
+    const rows = await fetchData();
+    const box = document.getElementById('boxStats');
+    box.style.display = 'block';
+    box.scrollIntoView({ behavior: 'smooth' });
+    const secteurs = {};
+    let total = 0;
+    rows.forEach(lot => {
+      const s = lot.secteur_pedagogique;
+      const nb = JSON.parse(lot.eleves || '[]').length;
+      total += nb;
+      secteurs[s] = (secteurs[s] || 0) + nb;
+    });
+    let tbl = `<table><thead><tr><th>Secteur</th><th>Effectifs sans extraits</th></tr></thead><tbody>`;
+    Object.entries(secteurs).forEach(([s, nb]) => { tbl += `<tr><td>${s}</td><td>${nb}</td></tr>`; });
+    tbl += `</tbody></table><p style="text-align:right;font-weight:bold">TOTAL ACESE – IEPP GRABO : ${total} élèves sans extraits</p>`;
+    box.insertAdjacentHTML('afterbegin', tbl);
+    const ctx = document.getElementById('chart').getContext('2d');
+    if (window.myChart) window.myChart.destroy();
+    window.myChart = new Chart(ctx, { type: 'doughnut', data: { labels: Object.keys(secteurs), datasets: [{ data: Object.values(secteurs), backgroundColor: ['#ff6f00', '#2e7d32', '#66bb6a', '#e67e22'] }] }, options: { plugins: { title: { display: true, text: 'Répartition par secteur pédagogique' } } } });
+  }
+  function download(csv, filename) {
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+  }
+</script>
+</body>
+</html>

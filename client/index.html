@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>ACESE – IEPP GRABO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{--orange:#ff6f00;--vert:#2e7d32;--blanc:#fff;--gris:#f5f5f5}
+    body{font-family:'Comic Sans MS',Arial,Helvetica,sans-serif;margin:0;background:var(--gris);color:#333}
+    h1,h2{color:var(--vert);text-shadow:1px 1px 2px rgba(0,0,0,.1)}
+    section{background:var(--blanc);border:3px solid var(--orange);border-radius:20px;padding:20px;margin:20px;box-shadow:0 6px 12px rgba(0,0,0,.1)}
+    label{display:block;margin:8px 0;font-weight:bold;color:var(--vert)}
+    input,select{width:100%;padding:10px;border:2px solid var(--orange);border-radius:12px;background:var(--blanc);font-size:14px}
+    input:focus,select:focus{outline:none;border-color:#66bb6a;box-shadow:0 0 5px #66bb6a}
+    button{background:var(--orange);color:var(--blanc);border:none;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:bold;cursor:pointer;transition:transform .2s,background .3s}
+    button:hover{background:#e65100;transform:scale(1.05)}
+    .del{background:#e74c3c;color:#fff;border:none;padding:4px 8px;border-radius:8px;cursor:pointer}
+    table{width:100%;border-collapse:collapse;font-size:12px;background:var(--blanc);border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1)}th,td{border:1px solid var(--orange);padding:4px;text-align:center}th{background:#66bb6a;color:var(--blanc)}.hide{display:none}
+  </style>
+</head>
+<body>
+<section id="screen-setup">
+  <center><h1>🍊 ACESE - IEPP GRABO 🍏</h1></center>
+  <p><em><center>Appli de Collecte des Élèves Sans Extraits</center></em></p>
+  <form id="formSetup">
+    <label>DRENA
+      <select name="drena" required>
+        <option value="">-- Choisissez --</option>
+        <option>DRENA SAN-PEDRO</option>
+      </select>
+    </label>
+    <label>IEPP
+      <select name="iepp" required>
+        <option value="">-- Choisissez --</option>
+        <option>IEPP GRABO</option>
+      </select>
+    </label>
+    <label>Secteur pédagogique
+      <select name="secteur_pedagogique" required>
+        <option value="">-- Choisissez --</option>
+        <option>SECTEUR GNATO</option>
+        <option>SECTEUR GRABO-EST</option>
+        <option>SECTEUR GRABO-EST 2</option>
+        <option>SECTEUR GRABO-OUEST</option>
+        <option>SECTEUR GRABO-OUEST 2</option>
+      </select>
+    </label>
+    <label>École
+      <select name="nom_ecole" required>
+        <option value="">-- Choisissez --</option>
+        <option>EPP ALASSANE OUATTARA DE GRABO</option>
+        <option>EPP DE BOHOUSSOUKRO</option>
+        <option>EPP DE DEBLABLAI</option>
+        <option>EPP 2 DE DEBLABLAI</option>
+        <option>EPP DE FETAI</option>
+        <option>EPP 1 GBAPET VILLAGE</option>
+        <option>EPP 2 DE GBAPET VILLAGE</option>
+        <option>EPP 1 DE GNATO</option>
+        <option>EPP 2 DE GNATO</option>
+        <option>EPP 1 DE GRABO</option>
+        <option>EPP 1A DE GRABO</option>
+        <option>EPP 1B DE GRABO</option>
+        <option>EPP 3 DE GRABO</option>
+        <option>EPP JULES HIE NEA DE GRABO</option>
+        <option>EPP DE NEGBATCHI</option>
+        <option>EPP DE SIAHE</option>
+        <option>EPP DE SOTO</option>
+        <option>EPP DE UAI GBAPET</option>
+        <option>EPP UNICEF DE GNATO</option>
+        <option>EPP UNICEF DE BINKADI</option>
+        <option>EPP DE WATINOMA</option>
+        <option>EPP DE YASSOUAKRO</option>
+      </select>
+    </label>
+    <label>Nom du directeur
+      <input type="text" name="nom_directeur" required>
+    </label>
+    <label>Prénoms du directeur
+      <input type="text" name="prenoms_directeur" required>
+    </label>
+    <label>Contact téléphonique 1
+      <input type="tel" name="contact1" pattern="[0-9]{10}" maxlength="10" required>
+    </label>
+    <label>Contact téléphonique 2 (facultatif)
+      <input type="tel" name="contact2" pattern="[0-9]{10}" maxlength="10">
+    </label>
+    <label>Email (facultatif)
+      <input type="email" name="email">
+    </label>
+    <button type="submit">Enregistrer & continuer</button>
+  </form>
+</section>
+<section id="screen-app" class="hide">
+  <center> <h1>🍊 Saisie des élèves 🍏</h1></center>
+  <button id="btnRetour" onclick="retourParametrage()">↩ Retour au paramétrage</button>
+
+  <form id="formEleve">
+    <label>Nom
+      <input type="text" name="nom" required>
+    </label>
+    <label>Prénoms
+      <input type="text" name="prenoms" required>
+    </label>
+    <label>Sexe
+      <select name="sexe" required>
+        <option value="M">M</option>
+        <option value="F">F</option>
+      </select>
+    </label>
+    <label>Date de naissance probable (jj/mm/aaaa)</label>
+    <div style="display:flex;gap:4px">
+      <input type="number" id="dn_j" placeholder="jj" min="1" max="31" required style="flex:1">
+      <input type="number" id="dn_m" placeholder="mm" min="1" max="12" required style="flex:1">
+      <input type="number" id="dn_a" placeholder="aaaa" min="2010" max="2023" required style="flex:2">
+    </div>
+    <label>Classe
+      <select name="classe" required>
+        <option value="">-- Choisissez --</option>
+        <option>CP1</option>
+        <option>CP2</option>
+        <option>CE1</option>
+        <option>CE2</option>
+        <option>CM1</option>
+        <option>CM2</option>></select></label>
+    <label>Nom complet du père<input type="text" name="nom_pere" required></label>
+    <label>N° du père<input type="tel" name="numero_pere" pattern="[0-9]{10}" maxlength="10" required></label>
+    <label>Nationalité du père<input type="text" name="nationalite_pere" value="Ivoirienne" required></label>
+    <label>Nom complet de la mère<input type="text" name="nom_mere" required></label>
+    <label>N° de la mère<input type="tel" name="numero_mere" pattern="[0-9]{10}" maxlength="10" required></label>
+    <label>Nationalité de la mère<input type="text" name="nationalite_mere" value="Ivoirienne" required></label>
+    <label>Nom complet du témoin<input type="text" name="nom_temoin" required></label>
+    <label>N° du témoin<input type="tel" name="numero_temoin" pattern="[0-9]{10}" maxlength="10" required></label>
+    <button type="submit">Ajouter élève</button>
+  </form>
+  <h2>Liste locale (<span id="nb">0</span>)</h2>
+  <table id="tableEleves"><thead><tr><th>Modif</th><th>Nom</th><th>Prénoms</th><th>Sexe</th><th>Date naiss.</th><th>Classe</th><th>Suppr</th></tr></thead><tbody></tbody></table>
+  <center><button onclick="upload()">ENVOYER SUR LE SERVEUR DE L'IEPP</button>
+  <center><button onclick="exportCSV()">CSV</button>
+</section>
+<script>
+  const SERVER_URL = 'https://acesegrabo-h2jn.onrender.com/api/eleves';
+  let CONFIG = JSON.parse(localStorage.getItem('config') || 'null');
+  let ELEVES = JSON.parse(localStorage.getItem('eleves') || '[]');
+  let EDIT_INDEX = null;
+  window.onload = () => {
+    if (CONFIG) {
+      document.getElementById('screen-setup').classList.add('hide');
+      document.getElementById('screen-app').classList.remove('hide');
+      refreshTable();
+    }
+  };
+  document.getElementById('formSetup').addEventListener('submit', e => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    localStorage.setItem('config', JSON.stringify(data));
+    CONFIG = data;
+    document.getElementById('screen-setup').classList.add('hide');
+    document.getElementById('screen-app').classList.remove('hide');
+  });
+  function retourParametrage() {
+    if (confirm('Voulez-vous vraiment revenir au paramétrage ?\n(Les élèves non envoyés seront conservés.)')) {
+      document.getElementById('screen-app').classList.add('hide');
+      document.getElementById('screen-setup').classList.remove('hide');
+    }
+  }
+  document.getElementById('formEleve').addEventListener('submit', e => {
+    e.preventDefault();
+    const j = String(document.getElementById('dn_j').value).padStart(2,'0');
+    const m = String(document.getElementById('dn_m').value).padStart(2,'0');
+    const a = document.getElementById('dn_a').value;
+    if(!j||!m||!a){alert('Date incomplète');return;}
+    const dateFr = `${j}/${m}/${a}`;
+    const data = Array.from(e.target.querySelectorAll('input,select')).filter(el=>!el.id).reduce((a,el)=>(a[el.name]=el.value,a),{});
+    data.date_naissance_probable = dateFr;
+    const cle = (data.nom + data.prenoms + dateFr).toLowerCase();
+    const existe = ELEVES.some((el, i) => i !== EDIT_INDEX && (el.nom + el.prenoms + el.date_naissance_probable).toLowerCase() === cle);
+    if (existe) { alert('Cet élève existe déjà dans la liste !'); return; }
+    if (EDIT_INDEX === null) {
+      ELEVES.push(data);
+    } else {
+      ELEVES[EDIT_INDEX] = data;
+      cancelEdit();
+    }
+    localStorage.setItem('eleves', JSON.stringify(ELEVES));
+    e.target.reset();
+    refreshTable();
+  });
+  function cancelEdit() {
+    EDIT_INDEX = null;
+    document.getElementById('formEleve').reset();
+    document.querySelector('#formEleve button[type=submit]').textContent = 'Ajouter élève';
+    const btnCancel = document.querySelector('#btnCancel');
+    if (btnCancel) btnCancel.remove();
+  }
+  function editEleve(idx) {
+    EDIT_INDEX = idx;
+    const el = ELEVES[idx];
+    document.querySelector('[name=nom]').value = el.nom;
+    document.querySelector('[name=prenoms]').value = el.prenoms;
+    document.querySelector('[name=sexe]').value = el.sexe;
+    const [jj,mm,aaaa] = el.date_naissance_probable.split('/');
+    document.getElementById('dn_j').value = jj;
+    document.getElementById('dn_m').value = mm;
+    document.getElementById('dn_a').value = aaaa;
+    document.querySelector('[name=classe]').value = el.classe;
+    document.querySelector('[name=nom_pere]').value = el.nom_pere;
+    document.querySelector('[name=numero_pere]').value = el.numero_pere;
+    document.querySelector('[name=nationalite_pere]').value = el.nationalite_pere;
+    document.querySelector('[name=nom_mere]').value = el.nom_mere;
+    document.querySelector('[name=numero_mere]').value = el.numero_mere;
+    document.querySelector('[name=nationalite_mere]').value = el.nationalite_mere;
+    document.querySelector('[name=nom_temoin]').value = el.nom_temoin;
+    document.querySelector('[name=numero_temoin]').value = el.numero_temoin;
+    document.querySelector('#formEleve button[type=submit]').textContent = 'Enregistrer les modifications';
+    if (!document.querySelector('#btnCancel')) {
+      const cancel = document.createElement('button');
+      cancel.type = 'button'; cancel.id = 'btnCancel'; cancel.textContent = 'Annuler';
+      cancel.onclick = cancelEdit;
+      document.querySelector('#formEleve button[type=submit]').after(cancel);
+    }
+  }
+  function supprimerEleve(idx) {
+    if (confirm('Voulez-vous vraiment supprimer cet élève ?')) {
+      ELEVES.splice(idx, 1);
+      localStorage.setItem('eleves', JSON.stringify(ELEVES));
+      refreshTable();
+    }
+  }
+  function refreshTable() {
+    const tbody = document.querySelector('#tableEleves tbody');
+    tbody.innerHTML = '';
+    ELEVES.forEach((e, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><button onclick="editEleve(${idx})">✏️</button></td><td>${e.nom}</td><td>${e.prenoms}</td><td>${e.sexe}</td><td>${e.date_naissance_probable}</td><td>${e.classe}</td><td><button class="del" onclick="supprimerEleve(${idx})">🗑️</button></td>`;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('nb').textContent = ELEVES.length;
+  }
+  async function upload() {
+    if (!ELEVES.length) return alert("Aucun élève à envoyer");
+    const payload = { ...CONFIG, eleves: ELEVES };
+    try {
+      const r = await fetch(SERVER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (r.ok) {
+        alert("Données envoyées avec succès !");
+        localStorage.removeItem('eleves');
+        ELEVES = [];
+        refreshTable();
+      } else {
+        alert("Erreur lors de l'envoi.");
+      }
+    } catch (e) {
+      alert("Problème de connexion.");
+    }
+  }
+  function exportCSV() {
+    let csv = 'Nom;Prénoms;Sexe;Date naissance;Classe;Nom père;Tél père;Nationalité père;Nom mère;Tél mère;Nationalité mère;Nom témoin;Tél témoin\n';
+    ELEVES.forEach(e => {
+      csv += `${e.nom};${e.prenoms};${e.sexe};${e.date_naissance_probable};${e.classe};${e.nom_pere};${e.numero_pere};${e.nationalite_pere};${e.nom_mere};${e.numero_mere};${e.nationalite_mere};${e.nom_temoin};${e.numero_temoin}\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'eleves.csv'; a.click();
+  }
+</script>
+</body>
+</html>
