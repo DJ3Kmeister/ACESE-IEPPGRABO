@@ -177,12 +177,19 @@
     document.getElementById('screen-setup').classList.add('hide');
     document.getElementById('screen-app').classList.remove('hide');
   });
-  function retourParametrage() {
-    if (confirm('Voulez-vous vraiment revenir au paramétrage ?\n(Les élèves non envoyés seront conservés.)')) {
-      document.getElementById('screen-app').classList.add('hide');
-      document.getElementById('screen-setup').classList.remove('hide');
-    }
-  }
+  // retire la pop-up
+function retourParametrage() {
+  // message doux
+  const msg = document.createElement('div');
+  msg.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#002d72;color:#fff;padding:10px 20px;border-radius:8px;z-index:9999;font-size:0.9rem;';
+  msg.textContent = 'Retour au paramétrage en cours...';
+  document.body.appendChild(msg);
+  setTimeout(() => {
+    document.body.removeChild(msg);
+    document.getElementById('screen-app').classList.add('hide');
+    document.getElementById('screen-setup').classList.remove('hide');
+  }, 800);
+}
   document.getElementById('formEleve').addEventListener('submit', e => {
     e.preventDefault();
     const j = String(document.getElementById('dn_j').value).padStart(2,'0');
