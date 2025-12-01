@@ -1,0 +1,14 @@
+name: Ping Render to stay awake
+
+on:
+  schedule:
+    - cron: '*/14 * * * *'  # toutes les 14 minutes
+  workflow_dispatch:        # permet de lancer manuellement
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Appeler l’API
+        run: |
+          curl -f https://acesegrabo-h2jn.onrender.com/api/eleves
