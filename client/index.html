@@ -169,14 +169,17 @@
       refreshTable();
     }
   };
-  document.getElementById('formSetup').addEventListener('submit', e => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target).entries());
-    localStorage.setItem('config', JSON.stringify(data));
-    CONFIG = data;
+  ddocument.getElementById('formSetup').addEventListener('submit', e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  localStorage.setItem('config', JSON.stringify(data));
+  CONFIG = data;
+  // petit délai pour Safari
+  setTimeout(() => {
     document.getElementById('screen-setup').classList.add('hide');
     document.getElementById('screen-app').classList.remove('hide');
-  });
+  }, 100);
+});
   // retire la pop-up
 function retourParametrage() {
   // message doux
