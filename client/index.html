@@ -66,8 +66,8 @@
       </select>
     </label>
     <label>École
-      <select name="nom_ecole" required>
-        <option value="">-- Choisissez --</option>
+      <select name="nom_ecole" id="selectEcole" required>
+        <option value="">-- Choisissez votre école--</option>
         <option>EPP ALASSANE OUATTARA DE GRABO</option>
         <option>EPP DE BOHOUSSOUKRO</option>
         <option>EPP DE DEBLABLAI</option>
@@ -108,6 +108,27 @@
       <input type="email" name="email">
     </label>
     <button type="submit">Enregistrer & continuer</button>
+    <script>
+  const secteurSelect = document.querySelector('[name="secteur_pedagogique"]');
+  const ecoleSelect = document.getElementById('selectEcole');
+
+  function remplirEcoles() {
+    const secteur = secteurSelect.value;
+    ecoleSelect.innerHTML = '<option value="">-- Choisissez votre école --</option>';
+    if (secteur && ecolesParSecteur[secteur]) {
+      ecolesParSecteur[secteur].forEach(ecole => {
+        const opt = document.createElement('option');
+        opt.value = ecole;
+        opt.textContent = ecole;
+        ecoleSelect.appendChild(opt);
+      });
+    }
+  }
+
+  // au chargement + au changement
+  remplirEcoles();
+  secteurSelect.addEventListener('change', remplirEcoles);
+</script>
   </form>
 </section>
 <section id="screen-app" class="hide">
@@ -180,6 +201,44 @@
     document.getElementById('screen-app').classList.remove('hide');
   }, 100);
 });
+ const ecolesParSecteur = {
+  'SECTEUR GNATO': [
+    'EPP DE DEOHAKO',
+    'EPP 1 DE GBAPET VILLAGE',
+    'EPP 2 DE GBAPET VILLAGE',
+    'EPP 1 DE GNATO',
+    'EPP 2 DE GNATO',
+    'EPP UNICEF DE GNATO'
+  ],
+  'SECTEUR GRABO-EST': [
+    'EPP 1A DE GRABO',
+    'EPP 1B DE GRABO',
+    'EPP 3 DE GRABO',
+    'EPP UAI DE GBAPET'
+  ],
+  'SECTEUR GRABO-EST 2': [
+    'EPP DE ALLOUKRO',
+    'EPP DE BOHOUSSOUKRO',
+    'EPP DE DIOULABOUGOU',
+    'EPP UNICEF DE BINKADI',
+    'EPP DE WATINOMA',
+    'EPP DE YASSOUAKRO'
+  ],
+  'SECTEUR GRABO-OUEST': [
+    'EPP ALASSANE OUATTARA DE GRABO',
+    'EPP DE FËTAI',
+    'EPP JULES HIE NEA DE GRABO',
+    'EPP DE PODOUE',
+    'EPP DE SOTO'
+  ],
+  'SECTEUR GRABO-OUEST 2': [
+    'EPP DE ABRAHAMDIHOKE',
+    'EPP 1 DE DEBLABLAI',
+    'EPP 2 DE DEBLABLAI',
+    'EPP DE NEGBATCHI',
+    'EPP DE SIAHE'
+  ]
+};  
   // retire la pop-up
 function retourParametrage() {
   // message doux
