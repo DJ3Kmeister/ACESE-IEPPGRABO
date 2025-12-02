@@ -68,30 +68,7 @@
     <label>École
       <select name="nom_ecole" id="selectEcole" required>
         <option value="">-- Choisissez votre école--</option>
-        <option>EPP ALASSANE OUATTARA DE GRABO</option>
-        <option>EPP DE BOHOUSSOUKRO</option>
-        <option>EPP DE DEBLABLAI</option>
-        <option>EPP 2 DE DEBLABLAI</option>
-        <option>EPP DE FETAI</option>
-        <option>EPP 1 GBAPET VILLAGE</option>
-        <option>EPP 2 DE GBAPET VILLAGE</option>
-        <option>EPP 1 DE GNATO</option>
-        <option>EPP 2 DE GNATO</option>
-        <option>EPP 1 DE GRABO</option>
-        <option>EPP 1A DE GRABO</option>
-        <option>EPP 1B DE GRABO</option>
-        <option>EPP 3 DE GRABO</option>
-        <option>EPP JULES HIE NEA DE GRABO</option>
-        <option>EPP DE NEGBATCHI</option>
-        <option>EPP DE SIAHE</option>
-        <option>EPP DE SOTO</option>
-        <option>EPP DE UAI GBAPET</option>
-        <option>EPP UNICEF DE GNATO</option>
-        <option>EPP UNICEF DE BINKADI</option>
-        <option>EPP DE WATINOMA</option>
-        <option>EPP DE YASSOUAKRO</option>
-      </select>
-    </label>
+            </label>
     <label>Nom du directeur
       <input type="text" name="nom_directeur" required>
     </label>
@@ -108,7 +85,8 @@
       <input type="email" name="email">
     </label>
     <button type="submit">Enregistrer & continuer</button>
-    <script>
+     </form>
+  <script>
   const secteurSelect = document.querySelector('[name="secteur_pedagogique"]');
   const ecoleSelect = document.getElementById('selectEcole');
 
@@ -129,7 +107,6 @@
   remplirEcoles();
   secteurSelect.addEventListener('change', remplirEcoles);
 </script>
-  </form>
 </section>
 <section id="screen-app" class="hide">
   <center> <h1>🍊 Saisie des élèves 🍏</h1></center>
