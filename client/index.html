@@ -189,7 +189,7 @@ const ecolesParSecteur = {
       refreshTable();
     }
   };
-  ddocument.getElementById('formSetup').addEventListener('submit', e => {
+  document.getElementById('formSetup').addEventListener('submit', e => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target).entries());
   localStorage.setItem('config', JSON.stringify(data));
