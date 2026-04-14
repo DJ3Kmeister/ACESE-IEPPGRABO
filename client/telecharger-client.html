@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <title>Télécharger ACESE – IEPP GRABO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.2.0/qrcode.min.js"></script>
+  <!-- QRCode.js depuis CDN fiable avec HTTPS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     :root{--orange:#ff6f00;--vert:#2e7d32;--blanc:#fff;--gris:#f5f5f5;--bleu:#002d72}
     *{box-sizing:border-box}
@@ -27,10 +28,16 @@
     .qr-section{margin-top:30px;padding-top:30px;border-top:2px dashed #ddd}
     .qr-section p{color:#666;margin-bottom:15px}
 
-    #qrcode{margin:20px auto;padding:15px;background:#fff;border-radius:10px;display:inline-block;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+    #qrcode{margin:20px auto;padding:15px;background:#fff;border-radius:10px;display:inline-block;box-shadow:0 2px 8px rgba(0,0,0,.1);min-height:200px;min-width:200px}
+    #qrcode img, #qrcode canvas{display:block;margin:0 auto}
+
+    .qr-fallback{margin:20px auto;padding:20px;background:#fff;border-radius:10px;display:none}
+    .qr-fallback a{color:var(--vert);font-weight:bold;word-break:break-all}
 
     .info-box{background:var(--gris);padding:20px;border-radius:10px;margin-top:30px;font-size:.9rem;color:#666}
     .info-box strong{color:var(--vert)}
+
+    .error-msg{color:var(--rouge);font-size:0.9rem;margin-top:10px;display:none}
 
     footer{margin-top:40px;padding:20px;color:#666;font-size:.9rem}
 
@@ -59,13 +66,23 @@
       <li>Données sécurisées et confidentielles</li>
     </ul>
 
-    <a href="client/index.html" download="ACESE-IEPP-GRABO.html" class="btn">
+    <a href="index.html" download="ACESE-IEPP-GRABO.html" class="btn">
       📥 Télécharger le formulaire
     </a>
 
     <div class="qr-section">
       <p><strong>Ou scannez le QR code :</strong></p>
-      <div id="qrcode"></div>
+      <div id="qrcode">
+        <p style="color:#999;padding:20px;">Chargement du QR code...</p>
+      </div>
+      <p class="error-msg" id="qrError">⚠️ Impossible de générer le QR code</p>
+
+      <!-- Fallback si QR code échoue -->
+      <div class="qr-fallback" id="qrFallback">
+        <p>Accès direct :</p>
+        <a id="directLink" href="#" target="_blank"></a>
+      </div>
+
       <p style="font-size:.9rem;color:#999;margin-top:10px">
         Scannez avec votre smartphone pour accéder directement
       </p>
@@ -86,20 +103,93 @@
   </footer>
 
   <script>
-    // Générer QR code vers le client
+    // URL vers le formulaire client
     const url = window.location.origin + '/client/index.html';
 
-    new QRCode(document.getElementById('qrcode'), {
-      text: url,
-      width: 200,
-      height: 200,
-      colorDark: '#2e7d32',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.H
-    });
+    console.log('Génération QR code pour:', url);
 
-    // Log pour debug
-    console.log('QR Code généré pour:', url);
+    // Afficher l'URL en fallback
+    document.getElementById('directLink').href = url;
+    document.getElementById('directLink').textContent = url;
+
+    // Fonction pour générer le QR code
+    function generateQR() {
+      try {
+        const container = document.getElementById('qrcode');
+        container.innerHTML = ''; // Vider le message de chargement
+
+        // Vérifier si QRCode est disponible
+        if (typeof QRCode === 'undefined') {
+          throw new Error('Librairie QRCode non chargée');
+        }
+
+        new QRCode(container, {
+          text: url,
+          width: 200,
+          height: 200,
+          colorDark: '#2e7d32',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+
+        console.log('✅ QR code généré avec succès');
+        return true;
+
+      } catch (e) {
+        console.error('❌ Erreur QR code:', e);
+        return false;
+      }
+    }
+
+    // Essayer de générer le QR code avec plusieurs méthodes
+    function initQR() {
+      // Méthode 1: QRCode.js standard
+      if (typeof QRCode !== 'undefined') {
+        if (generateQR()) return;
+      }
+
+      // Méthode 2: Attendre que la librairie charge (si retard)
+      let attempts = 0;
+      const maxAttempts = 10;
+
+      const checkInterval = setInterval(function() {
+        attempts++;
+        console.log('Tentative', attempts, 'de chargement QRCode...');
+
+        if (typeof QRCode !== 'undefined') {
+          clearInterval(checkInterval);
+          if (generateQR()) return;
+        }
+
+        if (attempts >= maxAttempts) {
+          clearInterval(checkInterval);
+          showFallback();
+        }
+      }, 500); // Vérifier toutes les 500ms
+
+      // Timeout de sécurité (5 secondes max)
+      setTimeout(function() {
+        clearInterval(checkInterval);
+        if (typeof QRCode === 'undefined' || document.getElementById('qrcode').innerHTML.includes('Chargement')) {
+          showFallback();
+        }
+      }, 5000);
+    }
+
+    // Afficher le fallback (lien direct)
+    function showFallback() {
+      console.log('Affichage fallback...');
+      document.getElementById('qrcode').style.display = 'none';
+      document.getElementById('qrError').style.display = 'block';
+      document.getElementById('qrFallback').style.display = 'block';
+    }
+
+    // Démarrer au chargement
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initQR);
+    } else {
+      initQR();
+    }
   </script>
 </body>
 </html>
