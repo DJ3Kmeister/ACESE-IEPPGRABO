@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Télécharger ACESE – IEPP GRABO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.2.0/qrcode.min.js"></script>
+  <style>
+    :root{--orange:#ff6f00;--vert:#2e7d32;--blanc:#fff;--gris:#f5f5f5;--bleu:#002d72}
+    *{box-sizing:border-box}
+    body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;margin:0;background:var(--gris);color:#333;text-align:center;line-height:1.6}
+
+    header{background:linear-gradient(135deg,var(--orange) 0%,var(--vert) 100%);color:var(--blanc);padding:40px 20px;font-size:2rem;text-shadow:1px 1px 3px rgba(0,0,0,.3)}
+    header p{font-size:1rem;margin-top:10px;opacity:.9}
+
+    section{background:var(--blanc);border:3px solid var(--orange);border-radius:20px;padding:40px 30px;margin:40px auto;max-width:500px;box-shadow:0 6px 12px rgba(0,0,0,.1)}
+
+    h2{color:var(--vert);margin-top:0}
+
+    .feature-list{text-align:left;margin:30px 0;padding:0;list-style:none}
+    .feature-list li{padding:10px 0 10px 35px;position:relative;border-bottom:1px solid #eee}
+    .feature-list li:before{content:"✓";position:absolute;left:0;color:var(--vert);font-weight:bold;font-size:1.2rem}
+
+    .btn{display:inline-block;padding:18px 35px;font-size:1.2rem;font-weight:bold;color:var(--blanc);background:var(--orange);border:none;border-radius:15px;text-decoration:none;transition:all .3s;box-shadow:0 4px 8px rgba(0,0,0,.2);margin:20px 0}
+    .btn:hover{background:#e65100;transform:scale(1.05);box-shadow:0 6px 12px rgba(0,0,0,.3)}
+
+    .qr-section{margin-top:30px;padding-top:30px;border-top:2px dashed #ddd}
+    .qr-section p{color:#666;margin-bottom:15px}
+
+    #qrcode{margin:20px auto;padding:15px;background:#fff;border-radius:10px;display:inline-block;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+
+    .info-box{background:var(--gris);padding:20px;border-radius:10px;margin-top:30px;font-size:.9rem;color:#666}
+    .info-box strong{color:var(--vert)}
+
+    footer{margin-top:40px;padding:20px;color:#666;font-size:.9rem}
+
+    @media(max-width:600px){
+      header{font-size:1.5rem;padding:30px 15px}
+      section{margin:20px;padding:25px}
+      .btn{width:100%;padding:15px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    🍊 ACESE – IEPP GRABO 🍏
+    <p>Application de Collecte des Élèves Sans Extraits</p>
+  </header>
+
+  <section>
+    <h2>📱 Télécharger l'application</h2>
+    <p style="font-size:1.1rem;color:#666">Pour les directeurs d'école de l'IEPP GRABO</p>
+
+    <ul class="feature-list">
+      <li>Fonctionne <strong>sans connexion internet</strong></li>
+      <li>Saisie simple et rapide des élèves</li>
+      <li>Envoi automatique des données à l'IEPP</li>
+      <li>Compatible smartphone, tablette et PC</li>
+      <li>Données sécurisées et confidentielles</li>
+    </ul>
+
+    <a href="client/index.html" download="ACESE-IEPP-GRABO.html" class="btn">
+      📥 Télécharger le formulaire
+    </a>
+
+    <div class="qr-section">
+      <p><strong>Ou scannez le QR code :</strong></p>
+      <div id="qrcode"></div>
+      <p style="font-size:.9rem;color:#999;margin-top:10px">
+        Scannez avec votre smartphone pour accéder directement
+      </p>
+    </div>
+
+    <div class="info-box">
+      <strong>💡 Comment ça marche ?</strong><br>
+      1. Téléchargez le fichier HTML<br>
+      2. Ouvrez-le dans votre navigateur (Chrome, Safari, etc.)<br>
+      3. Saisissez les élèves sans extrait de naissance<br>
+      4. Envoyez les données quand vous avez du réseau
+    </div>
+  </section>
+
+  <footer>
+    <p>Applicatif propulsé par <strong>DJ3K S3PH1R0TH</strong> – 2025</p>
+    <p>Version 2.0 – IEPP GRABO, DRENA San-Pédro</p>
+  </footer>
+
+  <script>
+    // Générer QR code vers le client
+    const url = window.location.origin + '/client/index.html';
+
+    new QRCode(document.getElementById('qrcode'), {
+      text: url,
+      width: 200,
+      height: 200,
+      colorDark: '#2e7d32',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // Log pour debug
+    console.log('QR Code généré pour:', url);
+  </script>
+</body>
+</html>
