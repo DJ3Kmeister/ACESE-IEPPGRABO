@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutoriel ACESE - Guide pour les Directeurs d'École</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 4px solid #ff6f00;
+        }
+
+        .header h1 {
+            color: #2e7d32;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .logo-section {
+            background: linear-gradient(135deg, #ff6f00 0%, #2e7d32 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .logo-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .step {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #fafafa;
+            border-radius: 12px;
+            border-left: 5px solid #ff6f00;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #ff6f00;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .step h3 {
+            color: #2e7d32;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .step-content {
+            margin-left: 55px;
+        }
+
+        .screenshot {
+            background: #e0e0e0;
+            border: 2px dashed #999;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            color: #666;
+        }
+
+        .screenshot-placeholder {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #2e7d32;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff6f00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .important {
+            background: #ffebee;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-weight: 600;
+        }
+
+        .important::before {
+            content: "🚨 ";
+            font-size: 1.2rem;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .field-description {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+
+        .field-name {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .btn-example {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #ff6f00;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .btn-secondary {
+            background: #002d72;
+        }
+
+        .btn-success {
+            background: #2e7d32;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #2e7d32;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #ff6f00;
+            text-align: center;
+            color: #666;
+        }
+
+        .contact-info {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍊 ACESE - IEPP GRABO 🍏</h1>
+            <p class="subtitle">Application de Collecte des Élèves Sans Extraits</p>
+            <p style="margin-top: 10px; color: #ff6f00; font-weight: bold;">TUTORIEL POUR LES DIRECTEURS D'ÉCOLE</p>
+        </div>
+
+        <div class="logo-section">
+            <h2>📚 Guide d'utilisation pas à pas</h2>
+            <p>Comment collecter les informations des élèves sans extrait de naissance</p>
+        </div>
+
+        <div class="important">
+            <strong>AVANT DE COMMENCER :</strong> Cette application fonctionne <strong>sans connexion internet</strong> ! Vous pouvez saisir les élèves hors ligne et envoyer les données plus tard quand vous avez du réseau.
+        </div>
+
+        <!-- ÉTAPE 1 -->
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Télécharger l'application</h3>
+            <div class="step-content">
+                <p>Accédez à l'adresse suivante sur votre téléphone ou ordinateur :</p>
+                <div class="field-description" style="text-align: center; font-size: 1.1rem; background: #e8f5e9;">
+                    <strong>https://acesegrabo-h2jn.onrender.com/telecharger</strong>
+                </div>
+
+                <div class="screenshot">
+                    <div class="screenshot-placeholder">📱</div>
+                    <p><em>Page de téléchargement avec QR code</em></p>
+                </div>
+
+                <p>Cliquez sur le bouton orange :</p>
+                <div class="btn-example">📥 Télécharger le formulaire</div>
+
+                <div class="tip">
+                    <strong>Astuce :</strong> Vous pouvez aussi scanner le QR code avec votre téléphone pour accéder directement à l'application.
+                </div>
+
+                <p>Le fichier <strong>"ACESE-IEPP-GRABO.html"</strong> sera téléchargé sur votre appareil.</p>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 2 -->
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Ouvrir l'application</h3>
+            <div class="step-content">
+                <p>Localisez le fichier téléchargé et ouvrez-le :</p>
+                <ul>
+                    <li><strong>Sur Android :</strong> Dans "Téléchargements" ou "Downloads", tapez sur le fichier</li>
+                    <li><strong>Sur iPhone :</strong> Dans l'app "Fichiers" → "Téléchargements"</li>
+                    <li><strong>Sur PC :</strong> Double-cliquez sur le fichier dans votre dossier Téléchargements</li>
+                </ul>
+
+                <div class="screenshot">
+                    <div class="screenshot-placeholder">📂</div>
+                    <p><em>Fichier ACESE-IEPP-GRABO.html dans les téléchargements</em></p>
+                </div>
+
+                <p>L'application s'ouvre dans votre navigateur (Chrome, Safari, Firefox...)</p>
+
+                <div class="warning">
+                    <strong>Important :</strong> N'effacez pas ce fichier ! C'est votre application de travail. Conservez-le précieusement sur votre téléphone.
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 3 -->
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Remplir les informations de l'école</h3>
+            <div class="step-content">
+                <p>À la première ouverture, vous devez configurer votre école :</p>
+
+                <div class="screenshot">
+                    <div class="screenshot-placeholder">⚙️</div>
+                    <p><em>Écran de paramétrage de l'école</em></p>
+                </div>
+
+                <table>
+                    <tr>
+                        <th>Champ</th>
+                        <th>Que mettre ?</th>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">DRENA</span></td>
+                        <td>Sélectionnez <strong>DRENA SAN-PEDRO</strong></td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">IEPP</span></td>
+                        <td>Sélectionnez <strong>IEPP GRABO</strong></td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Secteur pédagogique</span></td>
+                        <td>Choisissez votre secteur dans la liste (ex: SECTEUR GRABO-EST)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">École</span></td>
+                        <td>Sélectionnez le nom exact de votre école (la liste apparaît après avoir choisi le secteur)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Nom du directeur</span></td>
+                        <td>Votre nom de famille</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Prénoms du directeur</span></td>
+                        <td>Vos prénoms complets</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Contact téléphonique 1</span></td>
+                        <td>Votre numéro à 10 chiffres (obligatoire)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Contact téléphonique 2</span></td>
+                        <td>Deuxième numéro si vous en avez un (facultatif)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Email</span></td>
+                        <td>Votre adresse email si vous en avez une (facultatif)</td>
+                    </tr>
+                </table>
+
+                <p>Cliquez ensuite sur :</p>
+                <div class="btn-example">Enregistrer & Continuer →</div>
+
+                <div class="tip">
+                    <strong>Astuce :</strong> Ces informations ne seront à remplir qu'une seule fois. L'application les gardera en mémoire pour la prochaine fois.
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 4 -->
+        <div class="step">
+            <div class="step-number">4</div>
+            <h3>Saisir un élève sans extrait</h3>
+            <div class="step-content">
+                <p>Vous arrivez maintenant sur l'écran de saisie des élèves :</p>
+
+                <div class="screenshot">
+                    <div class="screenshot-placeholder">👨‍🎓</div>
+                    <p><em>Formulaire de saisie d'un élève</em></p>
+                </div>
+
+                <p>Remplissez tous les champs obligatoires (marqués d'une *) :</p>
+
+                <table>
+                    <tr>
+                        <th>Information</th>
+                        <th>Exemple</th>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Nom</span></td>
+                        <td>KOUASSI</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Prénoms</span></td>
+                        <td>Jean Marie</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Sexe</span></td>
+                        <td>G (Garçon) ou F (Fille)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Date de naissance</span></td>
+                        <td>15 / 03 / 2015 (jj/mm/aaaa)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Classe</span></td>
+                        <td>CP1, CP2, CE1, CE2, CM1 ou CM2</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Nom du père</span></td>
+                        <td>KOUASSI Paul</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Téléphone père</span></td>
+                        <td>0123456789</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Nom de la mère</span></td>
+                        <td>KOUASSI Amélie</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Téléphone mère</span></td>
+                        <td>0987654321</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Nom du témoin</span></td>
+                        <td>BLÉ Koffi (voisin, oncle, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="field-name">Téléphone témoin</span></td>
+                        <td>0147258369</td>
+                    </tr>
+                </table>
+
+                <p>Cliquez sur :</p>
+                <div class="btn-example">➕ Ajouter l'élève</div>
+
+                <div class="tip">
+                    <strong>Astuce :</strong> L'application vérifie automatiquement si un élève avec le même nom et date de naissance existe déjà. Pas de doublon possible !
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 5 -->
+        <div class="step">
+            <div class="step-number">5</div>
+            <h3>Gérer la liste des élèves</h3>
+            <div class="step-content">
+                <p>Tous les élèves saisis apparaissent dans un tableau :</p>
+
+                <div class="screenshot">
+                    <div class="screenshot-placeholder">📋</div>
+                    <p><em>Liste des élèves avec options de modification</em></p>
+                </div>
+
+                <p>Vous pouvez :</p>
+                <ul>
+                    <li><strong>✏️ Modifier</strong> : Cliquez sur le crayon pour corriger une information</li>
+                    <li><strong>🗑️ Supprimer</strong> : Cliquez sur la poubelle pour retirer un élève (avec confirmation)</li>
+                    <li><strong>🔍 Rechercher</strong> : Utilisez la barre de recherche pour trouver rapidement un élève</li>
+                </ul>
+
+                <div class="field-description">
+                    <strong>📊 Statistiques en temps réel :</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Total des élèves saisis</li>
+                        <li>Nombre de garçons</li>
+                        <li>Nombre de filles</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <strong>Attention :</strong> Les données sont stockées <strong>uniquement sur votre téléphone</strong> pour l'instant. Elles ne sont pas encore envoyées à l'IEPP.
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 6 -->
+        <div class="step">
+            <div class="step-number">6</div>
+            <h3>Envoyer les données à l'IEPP</h3>
+            <div class="step-content">
+                <p>Quand vous avez terminé la saisie et que vous avez une connexion internet (WiFi ou 4G) :</p>
+
+                <div class="screenshot">
+                    <div class="screenshot-placeholder">📤</div>
+                    <p><em>Bouton d'envoi des données</em></p>
+                </div>
+
+                <p>Cliquez sur le bouton vert :</p>
+                <div class="btn-example btn-success">📤 Envoyer sur le serveur IEPP</div>
+
+                <p>Attendez la confirmation :</p>
+                <div class="field-description" style="background: #e8f5e9; border-left: 4px solid #2e7d32;">
+                    ✅ "Données envoyées avec succès !"
+                </div>
+
+                <div class="important">
+                    <strong>APRÈS L'ENVOI RÉUSSI :</strong> La liste se vide automatiquement. Les élèves sont maintenant enregistrés sur le serveur de l'IEPP. Vous pouvez recommencer pour d'autres élèves si nécessaire.
+                </div>
+
+                <div class="tip">
+                    <strong>Pas de connexion ?</strong> Pas de problème ! Les données restent stockées sur votre téléphone. Envoyez-les plus tard quand vous aurez du réseau. L'application fonctionne hors ligne.
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAPE 7 -->
+        <div class="step">
+            <div class="step-number">7</div>
+            <h3>Exporter un fichier CSV (optionnel)</h3>
+            <div class="step-content">
+                <p>Si vous souhaitez garder une copie sur votre téléphone :</p>
+
+                <p>Cliquez sur :</p>
+                <div class="btn-example btn-secondary">📄 Exporter CSV local</div>
+
+                <p>Un fichier <strong>"ACESE_[Nom de votre école]_[date].csv"</strong> sera téléchargé.</p>
+
+                <div class="tip">
+                    <strong>À quoi ça sert ?</strong> Ce fichier peut s'ouvrir dans Excel et contient toutes les informations des élèves. C'est une sauvegarde locale.
+                </div>
+            </div>
+        </div>
+
+        <!-- RÉCAPITULATIF -->
+        <div class="step" style="background: #e8f5e9; border-left-color: #2e7d32;">
+            <div class="step-number" style="background: #2e7d32;">✓</div>
+            <h3 style="color: #2e7d32;">Récapitulatif</h3>
+            <div class="step-content">
+                <ol>
+                    <li><strong>Téléchargez</strong> l'application sur https://acesegrabo-h2jn.onrender.com/telecharger</li>
+                    <li><strong>Ouvrez</strong> le fichier HTML sur votre téléphone</li>
+                    <li><strong>Configurez</strong> votre école (une seule fois)</li>
+                    <li><strong>Saisissez</strong> les élèves sans extrait un par un</li>
+                    <li><strong>Vérifiez</strong> la liste avant envoi</li>
+                    <li><strong>Envoyez</strong> quand vous avez du réseau</li>
+                    <li><strong>Recommencez</strong> pour les élèves suivants</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        
+        <div class="step" style="background: #fff3e0; border-left-color: #ff6f00;">
+            <div class="step-number" style="background: #ff6f00;">📸</div>
+            <h3 style="color: #ff6f00;">Captures d'écran de référence</h3>
+            <div class="step-content">
+                <p><strong>Pour compléter ce tutoriel, prenez les captures d'écran suivantes :</strong></p>
+
+                <div class="field-description">
+                    <p><strong>1. Page de téléchargement</strong></p>
+                    <p style="color: #666; margin-left: 20px;">Ouvrez https://acesegrabo-h2jn.onrender.com/telecharger et capturez l'écran complet</p>
+                </div>
+
+                <div class="field-description">
+                    <p><strong>2. Écran de paramétrage</strong></p>
+                    <p style="color: #666; margin-left: 20px;">Remplissez un exemple et capturez avant de cliquer "Enregistrer"</p>
+                </div>
+
+                <div class="field-description">
+                    <p><strong>3. Formulaire de saisie élève</strong></p>
+                    <p style="color: #666; margin-left: 20px;">Saisissez un élève exemple et capturez l'écran</p>
+                </div>
+
+                <div class="field-description">
+                    <p><strong>4. Liste des élèves</strong></p>
+                    <p style="color: #666; margin-left: 20px;">Ajoutez 2-3 élèves et capturez le tableau</p>
+                </div>
+
+                <div class="field-description">
+                    <p><strong>5. Confirmation d'envoi</strong></p>
+                    <p style="color: #666; margin-left: 20px;">Capturez le message de succès après envoi</p>
+                </div>
+
+                <div class="tip">
+                    <strong>Comment insérer les images :</strong> Remplacez les blocs <code>&lt;div class="screenshot"&gt;</code> par des balises <code>&lt;img src="chemin/vers/image.jpg"&gt;</code>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="color: #2e7d32; margin-top: 40px; margin-bottom: 20px;">❓ Questions fréquentes (FAQ)</h2>
+
+        <div class="field-description">
+            <p><strong>Q : J'ai effacé l'application par erreur, que faire ?</strong></p>
+            <p style="margin-left: 20px; color: #666;">R : Retéléchargez-la à la même adresse. Vous devrez reconfigurer votre école, mais c'est rapide.</p>
+        </div>
+
+        <div class="field-description">
+            <p><strong>Q : Puis-je saisir sur plusieurs téléphones ?</strong></p>
+            <p style="margin-left: 20px; color: #666;">R : Oui, chaque directeur peut installer l'application sur son propre téléphone et envoyer ses données.</p>
+        </div>
+
+        <div class="field-description">
+            <p><strong>Q : Que se passe-t-il si j'envoie deux fois les mêmes élèves ?</strong></p>
+            <p style="margin-left: 20px; color: #666;">R : L'application détecte les doublons et empêche la saisie du même élève (même nom + date de naissance).</p>
+        </div>
+
+        <div class="field-description">
+            <p><strong>Q : Mes données sont-elles sécurisées ?</strong></p>
+            <p style="margin-left: 20px; color: #666;">R : Oui, les données restent sur votre téléphone jusqu'à l'envoi, puis sont stockées sur un serveur sécurisé de l'IEPP.</p>
+        </div>
+
+        <div class="field-description">
+            <p><strong>Q : L'application consomme-t-elle du crédit téléphonique ?</strong></p>
+            <p style="margin-left: 20px; color: #666;">R : Non pour la saisie (hors ligne). Uniquement lors de l'envoi des données (quelques Ko seulement).</p>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="contact-info">
+            <h3 style="color: #ff6f00; margin-bottom: 15px;">📞 Besoin d'aide ?</h3>
+            <p><strong>Contactez l'IEPP GRABO :</strong></p>
+            <ul style="margin-top: 10px;">
+                <li>IEPP de GRABO</li>
+                <li>Email : <a href="mailto:iepgrabo@gmail.com" style="color: #2e7d32; font-weight: bold;">iepgrabo@gmail.com</a></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p><strong>Applicatif ACESE - IEPP GRABO</strong></p>
+            <p>Version 2.0 - 2025</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Ce tutoriel a été généré pour accompagner les directeurs dans l'utilisation de l'application.</p>
+        </div>
+
+        <div class="no-print" style="margin-top: 30px; text-align: center; padding: 20px; background: #f5f5f5; border-radius: 10px;">
+            <p><strong>🖨️ Pour sauvegarder ce tutoriel :</strong></p>
+            <p>Appuyez sur Ctrl+P (ou Cmd+P sur Mac) et choisissez "Enregistrer au format PDF"</p>
+        </div>
+    </div>
+</body>
+</html>
