@@ -128,10 +128,10 @@ function logAction(action, details, ip) {
 }
 
 // Static files
-app.use('/client', express.static(path.join(__dirname, 'client')));
+
+// Servir les fichiers statiques à la racine (HTML, etc.)
 
 // Protection admin avec variable d'environnement
-const adminPassword = process.env.ADMIN_PASSWORD || 'S3ph1r0th2025!';
 app.use('/admin', basicAuth({
   users: { admin: adminPassword },
   challenge: true,
@@ -139,8 +139,16 @@ app.use('/admin', basicAuth({
 }));
 
 // Routes
-app.get('/admin', (_, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Route pour la page de téléchargement client
+  res.sendFile(path.join(__dirname, 'telecharger-client.html'));
+});
+
+// Route alternative pour compatibilité
+app.get('/download', (_, res) => {
+  res.sendFile(path.join(__dirname, 'telecharger-client.html'));
 });
 
 // API: Récupérer tous les élèves avec filtres optionnels
@@ -290,12 +298,10 @@ app.delete('/api/eleves/:id', (req, res) => {
 });
 
 // Health check
-app.get('/health', (_, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 // Gestion des erreurs globale
-app.use((err, req, res, next) => {
   console.error('Erreur:', err);
   res.status(500).json({ error: 'Erreur serveur interne' });
 });
@@ -308,3 +314,10 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+const adminPassword = process.env.ADMIN_PASSWORD || 'S3ph1r0th2025!';
+app.get('/admin', (_, res) => {
+app.get('/telecharger', (_, res) => {
+app.get('/health', (_, res) => {
+app.use((err, req, res, next) => {
+app.use('/client', express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname)));
