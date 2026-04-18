@@ -1,6 +1,6 @@
 {
   "name": "acese-iepp-grabo-server",
-  "version": "2.0.2",
+  "version": "2.0.5",
   "description": "API + dashboard ACESE – IEPP GRABO (Sécurisé et optimisé)",
   "main": "server.js",
   "scripts": {
@@ -22,6 +22,18 @@
     "nodemon": "^3.1.9"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.11.0 <21.0.0",
+    "npm": ">=10.0.0"
+  },
+  "engineStrict": true,
+  "overrides": {
+    "sqlite3": {
+      "tar": "^6.2.1",
+      "node-gyp": "^10.0.0",
+      "npmlog": "^7.0.1",
+      "semver": "^7.6.0",
+      "are-we-there-yet": "^4.0.0",
+      "gauge": "^5.0.0"
+    }
   }
 }

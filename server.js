@@ -13,20 +13,20 @@ const db = new sqlite3.Database(dbFile);
 // Configuration sécurisée CORS
 const corsOptions = {
   origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : '*',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type']
 };
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // 100 requêtes par IP
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: { error: 'Trop de requêtes, veuillez réessayer plus tard.' }
 });
 
 const apiLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10, // 10 requêtes par minute pour l'API
+  windowMs: 60 * 1000,
+  max: 10,
   message: { error: 'Limite d\'envoi atteinte. Veuillez patienter.' }
 });
 
@@ -46,7 +46,7 @@ app.use(cors(corsOptions));
 app.use(limiter);
 app.use(express.json({ limit: '50mb' }));
 
-// Création des tables avec schéma amélioré
+// Création des tables
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS lots (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -64,7 +64,6 @@ db.serialize(() => {
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 
-  // Table pour les logs (optionnel mais utile)
   db.run(`CREATE TABLE IF NOT EXISTS logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     action TEXT,
@@ -74,11 +73,9 @@ db.serialize(() => {
   )`);
 });
 
-// Fonction de validation des données
+// Fonction de validation
 function validatePayload(data) {
   const errors = [];
-
-  // Validation des champs requis
   const requiredFields = ['drena', 'iepp', 'secteur_pedagogique', 'nom_ecole', 
                           'nom_directeur', 'prenoms_directeur', 'contact1', 'eleves'];
   requiredFields.forEach(field => {
@@ -87,7 +84,6 @@ function validatePayload(data) {
     }
   });
 
-  // Validation du contact (10 chiffres)
   if (data.contact1 && !/^\d{10}$/.test(data.contact1)) {
     errors.push('Le contact 1 doit contenir exactement 10 chiffres');
   }
@@ -96,7 +92,6 @@ function validatePayload(data) {
     errors.push('Le contact 2 doit contenir exactement 10 chiffres');
   }
 
-  // Validation des élèves
   if (!Array.isArray(data.eleves)) {
     errors.push('Les élèves doivent être un tableau');
   } else {
@@ -110,7 +105,6 @@ function validatePayload(data) {
         }
       });
 
-      // Validation format date jj/mm/aaaa
       if (eleve.date_naissance_probable && 
           !/^\d{2}\/\d{2}\/\d{4}$/.test(eleve.date_naissance_probable)) {
         errors.push(`Élève ${idx + 1}: format date invalide (jj/mm/aaaa attendu)`);
@@ -127,31 +121,32 @@ function logAction(action, details, ip) {
     [action, JSON.stringify(details), ip]);
 }
 
-// Static files
-
-// Servir les fichiers statiques à la racine (HTML, etc.)
-
-// Protection admin avec variable d'environnement
+// Protection admin
+const adminPassword = process.env.ADMIN_PASSWORD || 'S3ph1r0th2025!';
 app.use('/admin', basicAuth({
   users: { admin: adminPassword },
   challenge: true,
   realm: 'ACESE-Admin'
 }));
 
-// Routes
+// ========== ROUTES SPÉCIFIQUES (définies AVANT les fichiers statiques) ==========
+
+// Route admin
+app.get('/admin', (_, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-// Route pour la page de téléchargement client
+// Route téléchargement client
+app.get('/telecharger', (_, res) => {
   res.sendFile(path.join(__dirname, 'telecharger-client.html'));
 });
 
-// Route alternative pour compatibilité
+// Route alternative
 app.get('/download', (_, res) => {
   res.sendFile(path.join(__dirname, 'telecharger-client.html'));
 });
 
-// API: Récupérer tous les élèves avec filtres optionnels
+// API: Récupérer tous les élèves avec filtres
 app.get('/api/eleves', (req, res) => {
   const { secteur, ecole, dateDebut, dateFin } = req.query;
   let query = 'SELECT * FROM lots WHERE 1=1';
@@ -224,11 +219,10 @@ app.get('/api/stats', (req, res) => {
   });
 });
 
-// API: Ajouter des élèves (avec rate limiting)
+// API: Ajouter des élèves
 app.post('/api/eleves', apiLimiter, (req, res) => {
   const ip = req.ip || req.connection.remoteAddress;
 
-  // Validation
   const errors = validatePayload(req.body);
   if (errors.length > 0) {
     logAction('VALIDATION_FAILED', { errors }, ip);
@@ -279,7 +273,7 @@ app.post('/api/eleves', apiLimiter, (req, res) => {
   stmt.finalize();
 });
 
-// API: Supprimer un lot (admin uniquement)
+// API: Supprimer un lot
 app.delete('/api/eleves/:id', (req, res) => {
   const ip = req.ip || req.connection.remoteAddress;
   const { id } = req.params;
@@ -298,10 +292,17 @@ app.delete('/api/eleves/:id', (req, res) => {
 });
 
 // Health check
+app.get('/health', (_, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// ========== FICHIERS STATIQUES (définis APRÈS les routes) ==========
+
+app.use('/client', express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname)));
+
 // Gestion des erreurs globale
+app.use((err, req, res, next) => {
   console.error('Erreur:', err);
   res.status(500).json({ error: 'Erreur serveur interne' });
 });
@@ -314,10 +315,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-const adminPassword = process.env.ADMIN_PASSWORD || 'S3ph1r0th2025!';
-app.get('/admin', (_, res) => {
-app.get('/telecharger', (_, res) => {
-app.get('/health', (_, res) => {
-app.use((err, req, res, next) => {
-app.use('/client', express.static(path.join(__dirname, 'client')));
-app.use(express.static(path.join(__dirname)));
